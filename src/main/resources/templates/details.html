@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>YT Scrapper</title>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard');
+            }).catch(err => {
+                alert('Failed to copy: ' + err.message);
+            });
+        }
+
+        function summarizeVideo() {
+            // This is a placeholder for the actual summarization functionality.
+            alert('Summarizing video...');
+        }
+
+        function downloadThumbnail() {
+            const thumbnailUrl = document.getElementById('thumbnail').src;
+            const link = document.createElement('a');
+            link.href = thumbnailUrl;
+            link.download = 'thumbnail.jpg'; // You can change the file name as needed
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</head>
+<body class="bg-gray-800 text-white">
+    <div class="bg-gray-900 items-center max-w-4xl mx-auto mt-8 p-6">
+        <div class="text-center text-3xl font-bold mb-6">
+            <span>Youtube Video Details |</span>
+            <a th:href="@{/}" class="text-blue-500 hover:bg-white">Find New Details 🔎</a>
+            <hr>
+        </div>
+
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <label for="title" class="text-3xl text-green-500 font-bold">Title :</label>
+                <span id="title" th:text="${vtitle}" class="text-xl font-semibold"></span>
+            </div>
+            <button onclick="copyToClipboard(document.getElementById('title').innerText)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Copy
+            </button>
+        </div>
+
+        <div class="mb-6 flex items-center">
+            <div class="mr-4">
+                <label for="thumbnail" class="text-3xl text-green-500 font-bold">Thumbnail :</label>
+                <img id="thumbnail" th:src="${vthumb}" alt="video thumbnail" class="max-w-full h-auto">
+            </div>
+            <button onclick="downloadThumbnail()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Download 
+            </button>
+        </div>
+
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <label for="tags" class="text-3xl text-green-500 font-bold">Tags :</label>
+                <span id="tags" th:each="tag : ${vtags}" th:text="${tag} + ', '" class="font-bold"></span>
+            </div>
+            <button onclick="copyToClipboard(document.getElementById('tags').innerText)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Copy
+            </button>
+        </div>
+
+        <div class="mb-10 flex justify-between items-center">
+            <div>
+                <label for="description" class="text-3xl text-green-500 font-bold">Description :</label>
+                <p id="description" th:text="${vdesc}"></p>
+            </div>
+            <button onclick="copyToClipboard(document.getElementById('description').innerText)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Copy
+            </button>
+        </div>
+
+
+        <footer class="mt-12 text-center text-xl text-gray-400">
+            Made with ❤️ by Aryesh
+        </footer>
+    </div>
+</body>
+</html>
